@@ -1,6 +1,7 @@
 ﻿namespace Lands.ViewModels
 {
     using GalaSoft.MvvmLight.Command;
+    using Lands.Services;
     using Lands.Views;
     using System;
     using System.Net.Mail;
@@ -9,6 +10,10 @@
 
     public class LoginViewModel : BaseViewModel
     {
+        #region Services
+        private ApiServices apiService; 
+        #endregion
+
         #region Attributes
         private String password;
         private String email;
@@ -51,11 +56,10 @@
         #region Constructors
         public LoginViewModel()
         {
+            this.apiService = new ApiServices();
+
             this.IsRemembered = true;
             this.IsEnabled = true;
-
-            this.Email = "pp@pp.com";
-            this.Password = "1234";
         }
         #endregion
 
@@ -98,15 +102,44 @@
             this.IsRunning = true;
             this.IsEnabled = false;
 
-            if (this.Email != "pp@pp.com" || this.Password != "1234")
+            var connection = await this.apiService.CheckConnection();
+
+            if(!connection.IsSuccess)
             {
                 this.IsRunning = false;
-                this.IsEnabled = true;
+                this.isEnabled = true;
                 await Application.Current.MainPage.DisplayAlert(
                     "Error",
-                    "Email or password incorrect!",
+                    connection.Message,
                     "Accept");
-                this.Password = String.Empty;
+                return;
+            }
+
+            var token = await this.apiService.GetToken(
+                "http://paises.gear.host/",
+                this.email,
+                this.password);
+
+            if(token == null)
+            {
+                this.IsRunning = false;
+                this.isEnabled = true;
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    "Something with token went wrong",
+                    "Accept");
+                return;
+            }
+
+            if(String.IsNullOrEmpty(token.AccessToken))
+            {
+                this.IsRunning = false;
+                this.isEnabled = true;
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    token.ErrorDescription,
+                    "Accept");
+                this.password = String.Empty;
                 return;
             }
 
