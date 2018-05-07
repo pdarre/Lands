@@ -11,7 +11,7 @@
     public class LoginViewModel : BaseViewModel
     {
         #region Services
-        private ApiServices apiService; 
+        private ApiServices apiService;
         #endregion
 
         #region Attributes
@@ -82,6 +82,7 @@
                     "Accept");
                 return;
             }
+
             if (!EmailValidate(this.Email))
             {
                 await Application.Current.MainPage.DisplayAlert(
@@ -90,6 +91,7 @@
                     "Accept");
                 return;
             }
+
             if (String.IsNullOrEmpty(this.Password))
             {
                 await Application.Current.MainPage.DisplayAlert(
@@ -104,7 +106,7 @@
 
             var connection = await this.apiService.CheckConnection();
 
-            if(!connection.IsSuccess)
+            if (!connection.IsSuccess)
             {
                 this.IsRunning = false;
                 this.isEnabled = true;
@@ -116,22 +118,22 @@
             }
 
             var token = await this.apiService.GetToken(
-                "http://paises.gear.host/",
-                this.email,
-                this.password);
+                "http://pablolandsapi.azurewebsites.net",
+                this.Email,
+                this.Password);
 
-            if(token == null)
+            if (token == null)
             {
                 this.IsRunning = false;
                 this.isEnabled = true;
                 await Application.Current.MainPage.DisplayAlert(
                     "Error",
-                    "Something with token went wrong",
+                    "Something went wrong, please try later.",
                     "Accept");
                 return;
             }
 
-            if(String.IsNullOrEmpty(token.AccessToken))
+            if (String.IsNullOrEmpty(token.AccessToken))
             {
                 this.IsRunning = false;
                 this.isEnabled = true;
@@ -143,14 +145,16 @@
                 return;
             }
 
+            var mainViewModel = MainViewModel.GetInstance();
+            mainViewModel.Token = token;
+            mainViewModel.Lands = new LandsViewModel();
+            await Application.Current.MainPage.Navigation.PushAsync(new LandsPage());
+
             this.IsRunning = false;
             this.IsEnabled = true;
 
             this.Email = String.Empty;
             this.Password = String.Empty;
-
-            MainViewModel.GetInstance().Lands = new LandsViewModel();
-            await Application.Current.MainPage.Navigation.PushAsync(new LandsPage());
         }
         #endregion   
 

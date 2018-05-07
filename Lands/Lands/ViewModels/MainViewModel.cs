@@ -6,6 +6,11 @@
     public class MainViewModel
     {
         #region Properties
+        public TokenResponse Token
+        {
+            get;
+            set;
+        }
         public List<Land> LandsList
         {
             get;
