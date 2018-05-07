@@ -60,6 +60,9 @@
 
             this.IsRemembered = true;
             this.IsEnabled = true;
+
+            this.Email = "pp@pp.com";
+            this.Password = "123456";
         }
         #endregion
 
