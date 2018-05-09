@@ -7,6 +7,7 @@
     using System.Net.Mail;
     using System.Windows.Input;
     using Xamarin.Forms;
+    using Helpers;
 
     public class LoginViewModel : BaseViewModel
     {
@@ -80,9 +81,9 @@
             if (String.IsNullOrEmpty(this.Email))
             {
                 await Application.Current.MainPage.DisplayAlert(
-                    "Error",
-                    "Email field cannot be empty",
-                    "Accept");
+                    Languages.Error,
+                    Languages.EmailValidator,
+                    Languages.Accept);
                 return;
             }
 
