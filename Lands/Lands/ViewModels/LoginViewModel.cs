@@ -86,15 +86,6 @@
                 return;
             }
 
-            if (!EmailValidate(this.Email))
-            {
-                await Application.Current.MainPage.DisplayAlert(
-                    "Error",
-                    "You must enter a valid email",
-                    "Accept");
-                return;
-            }
-
             if (String.IsNullOrEmpty(this.Password))
             {
                 await Application.Current.MainPage.DisplayAlert(
@@ -160,18 +151,5 @@
             this.Password = String.Empty;
         }
         #endregion   
-
-        static bool EmailValidate(string email)
-        {
-            try
-            {
-                new MailAddress(email);
-                return true;
-            }
-            catch (FormatException)
-            {
-                return false;
-            }
-        }
     }
 }

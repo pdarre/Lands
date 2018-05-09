@@ -107,7 +107,7 @@
                 Cioc = l.Cioc,
                 Currencies = l.Currencies,
                 Demonym = l.Demonym,
-                Flag = l.Flag,
+                Flag = l.Flag.Replace("https","http"),
                 Gini = l.Gini,
                 Languages = l.Languages,
                 Latlng = l.Latlng,
