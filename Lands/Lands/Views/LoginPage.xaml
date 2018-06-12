@@ -11,7 +11,7 @@
             <StackLayout Padding="5">
                 <Image
                     Source="onu.png"
-                    WidthRequest="200"
+                    WidthRequest="150"
                     Margin="20">                    
                 </Image>
                 <Label

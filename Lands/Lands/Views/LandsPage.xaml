@@ -10,7 +10,7 @@
              Title="Lands">
     <ContentPage.Resources>
         <ResourceDictionary>
-            <ffimageloadingsvg:SvgImageSourceConverter 
+            <ffimageloadingsvg:SvgImageSourceConverter
                 x:Key="SvgImageSourceConverter"/>
         </ResourceDictionary>
     </ContentPage.Resources>
