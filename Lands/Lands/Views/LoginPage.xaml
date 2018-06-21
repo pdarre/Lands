@@ -12,7 +12,7 @@
                 <Image
                     Source="onu.png"
                     WidthRequest="150"
-                    Margin="20">                    
+                    Margin="20">                       
                 </Image>
                 <Label
                     TextColor="Black"
